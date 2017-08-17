@@ -14,5 +14,6 @@ Imports:
   dygraphs,
   ggplot2,
   jsonlite,
-  rlang
+  rlang,
+  bindrcpp
 RoxygenNote: 6.0.1
