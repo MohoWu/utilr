@@ -13,8 +13,10 @@ Imports:
   xts,
   dygraphs,
   ggplot2,
-  jsonlite,
+  jsonlite
+Suggests:
   rlang,
   bindrcpp,
-  bindr
+  bindr,
+  glue
 RoxygenNote: 6.0.1
