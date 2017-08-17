@@ -1,0 +1,17 @@
+Package: utilr
+Title: A collection of my frequently used functions.
+Version: 0.0.0.9000
+Authors@R: person("Hao", "Wu", email = "hao.wu@ricardo.com", role = c("aut", "cre"))
+Description: This package contains various functions I often use, and is intended 
+  to save me some time by avoiding searching them from various locations.
+Depends: R (>= 3.3.3)
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports:
+  dplyr,
+  xts,
+  dygraphs,
+  ggplot2,
+  jsonlite
+RoxygenNote: 6.0.1
