@@ -13,5 +13,6 @@ Imports:
   xts,
   dygraphs,
   ggplot2,
-  jsonlite
+  jsonlite,
+  rlang
 RoxygenNote: 6.0.1

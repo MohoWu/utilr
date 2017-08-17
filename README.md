@@ -6,4 +6,4 @@ Installing
 
 To install the package, run the following code.
 
-    devtools::install_github("MohoWu/utilr")
+    devtools::install_github("mohowu/utilr")
