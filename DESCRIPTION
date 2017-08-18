@@ -9,14 +9,15 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Imports:
+  plyr,
   dplyr,
   xts,
   dygraphs,
   ggplot2,
-  jsonlite
-Suggests:
+  jsonlite,
   rlang,
   bindrcpp,
   bindr,
-  glue
+  glue,
+  pkgconfig
 RoxygenNote: 6.0.1
