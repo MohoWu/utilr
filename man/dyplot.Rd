@@ -4,21 +4,28 @@
 \alias{dyplot}
 \title{Interactive time series}
 \usage{
-dyplot(df, vars, dy.label = NA, tz = "UTC", draw.points = FALSE,
-  point.size = 2, line.width = 0.5, highlight.individual = FALSE,
-  dy.group = NA, ylab = NULL)
+dyplot(df, x = "date", vars, normalise = FALSE, dy.label = NA,
+  tz = "UTC", draw.points = FALSE, point.size = 2, line.width = 0.5,
+  connect.points = TRUE, highlight.individual = FALSE, dy.group = NA,
+  ylab = NULL, ylim = NULL, ...)
 }
 \arguments{
-\item{df}{A dataframe containing variables to plot in a wide format.
-Also needs to have a column named \code{date}.}
+\item{df}{A dataframe containing variables to plot in a wide format.}
+
+\item{x}{Name of the variable to plot as x axis. Default is "date". Note that
+the this does not have to be a \code{Date} or \code{POSIXct} class variable.
+Regular numeric variable is also supported, such as year 2010, 2011, ...}
 
 \item{vars}{The name of variables to plot. If not supplied, all the numeric 
 variables will be plotted.}
 
+\item{normalise}{Should the data be normalised. This is suitable for plotting
+variables of different scales. Default is \code{FALSE}.}
+
 \item{dy.label}{This specify the column containing additional info to add the 
 dygraph. Default is \code{NA}.}
 
-\item{tz}{Time zone of the time series data.#'}
+\item{tz}{Time zone of the time series data.}
 
 \item{draw.points}{Draw points in the series? The default is \code{FALSE}.}
 
@@ -27,18 +34,23 @@ of 0.5 is very subtle.}
 
 \item{line.width}{Default value is 0.5.}
 
+\item{connect.points}{Force the line to be drawn between points with gap.
+Default is \code{TRUE}.}
+
 \item{dy.group}{This specifies the group of the dygraphs. 
 If multiple dygraphs are plotted and you want zooming in one of the graphs to be synced with other graphs, 
 then set all the dygraphs to the same group.}
 
 \item{ylab}{Name of y axis.}
+
+\item{ylim}{Set the vertical range of the graph to c(low, high). See \code{\link[dygraphs]{dyAxis}}.}
+
+\item{...}{other arguements passed to \code{\link[dygraphs]{dygraph}}.}
 }
 \description{
 This function plots an interactive time series using \code{dygraph} package.
 }
 \examples{
 
-}
-\author{
-Hao Wu
+
 }

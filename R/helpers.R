@@ -51,7 +51,15 @@ spread_num <- function(n, spread.by, spread.length) {
 #' 
 #' @export
 #' 
-trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+str_trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+
+#' Replace white space(s)with underscore
+#'
+#' Returns string separated by underscore.
+#'   
+#' @export
+#' 
+str_underscore <- function(x) gsub('([[:punct:]])|\\s+', '_', x)
 
 
 

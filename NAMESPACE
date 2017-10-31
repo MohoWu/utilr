@@ -2,6 +2,8 @@
 
 export(dyplot)
 export(plot_lmodel2)
+export(str_trim)
+export(str_underscore)
 import(dplyr)
 import(dygraphs)
 import(ggplot2)

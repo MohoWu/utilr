@@ -3,24 +3,31 @@
 #' This function plots an interactive time series using \code{dygraph} package.
 #'
 #' @param df A dataframe containing variables to plot in a wide format.
-#'  Also needs to have a column named \code{date}.
+#' @param x Name of the variable to plot as x axis. Default is "date". Note that
+#'  the this does not have to be a \code{Date} or \code{POSIXct} class variable.
+#'  Regular numeric variable is also supported, such as year 2010, 2011, ... 
 #' @param vars The name of variables to plot. If not supplied, all the numeric 
-#'  variables will be plotted. 
+#'  variables will be plotted.  
+#' @param normalise Should the data be normalised. This is suitable for plotting
+#'  variables of different scales. Default is \code{FALSE}.
 #' @param dy.label This specify the column containing additional info to add the 
 #'  dygraph. Default is \code{NA}.
 #' @param draw.points Draw points in the series? The default is \code{FALSE}.
 #' @param point.size Default value is 2, which is generally appropriate. A value
 #'  of 0.5 is very subtle.
 #' @param line.width Default value is 0.5. 
-#' @param tz Time zone of the time series data.#' 
+#' @param connect.points Force the line to be drawn between points with gap.
+#'  Default is \code{TRUE}.
+#' @param tz Time zone of the time series data.
 #' @param dy.group This specifies the group of the dygraphs. 
 #' If multiple dygraphs are plotted and you want zooming in one of the graphs to be synced with other graphs, 
 #' then set all the dygraphs to the same group. 
 #' @param ylab Name of y axis.
+#' @param ylim Set the vertical range of the graph to c(low, high). See \code{\link[dygraphs]{dyAxis}}.
+#' @param ... other arguements passed to \code{\link[dygraphs]{dygraph}}.
 #' 
 #' @examples
 #' 
-#' @author Hao Wu
 #' 
 #' @import dygraphs
 #' @import dplyr
@@ -29,39 +36,55 @@
 #' 
 
 
-dyplot <- function(df, vars, dy.label = NA, tz = "UTC",
+dyplot <- function(df, x = "date", vars, normalise = FALSE, dy.label = NA, tz = "UTC",
                    draw.points = FALSE, point.size = 2, line.width = 0.5, 
+                   connect.points = TRUE,
                    highlight.individual = FALSE, 
-                   dy.group = NA, ylab = NULL) {
-
-  names(df) <- tolower(names(df))
+                   dy.group = NA, ylab = NULL, ylim = NULL, ...) {
   
-  # the data
+  # the Data
   if (missing(vars)) {
-    num_id = sapply(df, is.numeric)
-    theData = df[num_id]
+    num_id <-  sapply(df, is.numeric)
+    theData <-  df[num_id] %>%
+      select(-one_of(x)) # exlcude the x var if x is also numeric
+    
   } else {
-    theData = tryCatch(df[vars], 
-                       error = function(e) {
-                         df[intersect(vars, names(df))]
-                       })
+    theData <- tryCatch(df[vars], 
+                        error = function(e) {
+                          # if vars contains column names not in df,
+                          # choose the ones exist in df
+                          df[intersect(vars, names(df))]
+                        })
   }
   
-  # the date
-  theDate = df$date
+  # normalise data
+  if (normalise) theData <- theData %>% mutate_all(funs(./mean(., na.rm = TRUE)))
+  
+  # the Date
+  theDate <-  df[[x]]
   
   # create time series data
-  ts = xts::xts(theData, order.by = theDate, tz = tz)
+  ## check if x is date or numeric data
+  if (is.numeric(theDate)) {
+    
+    ts <- cbind(theDate, theData)
+    
+  } else {
+    
+    ts <- xts::xts(theData, order.by = theDate, tz = tz)
+    
+  }
   
   # plot dygraph
   colour_vector <- ggplot2_colours(NCOL(theData))
-  plot <- dygraph(ts, group = dy.group) %>% 
+  plot <- dygraph(ts, group = dy.group, ...) %>% 
     dyOptions(colors = colour_vector, 
               useDataTimezone = TRUE, 
               drawPoints = draw.points, 
-              pointSize = point.size) %>% 
-    dySeries(strokeWidth = line.width) %>%
-    dyAxis("y", label = ylab) %>%
+              pointSize = point.size,
+              strokeWidth = line.width,
+              connectSeparatedPoints = connect.points) %>% 
+    dyAxis("y", label = ylab, valueRange = ylim) %>%
     dyLegend(width = 400) %>%
     dyRangeSelector()
   
