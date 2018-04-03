@@ -18,7 +18,8 @@
 #'
 #' @import ggplot2
 #' @import dplyr
-#' @importFrom  lubridate wday month year day
+#' @importFrom lubridate wday month year day
+#' @importFrom forcats fct_inorder
 #'
 #' @export
 #'
