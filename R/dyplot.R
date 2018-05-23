@@ -135,3 +135,13 @@ dyplot <- function(df, x = "date", vars, normalise = FALSE, dy.label = NA, tz = 
   
   
 }
+
+
+#' Extract colour codes in ggplot2
+#'
+#' no export
+#' 
+ggplot2_colours <- function (n = 2) {
+  hues <- seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
