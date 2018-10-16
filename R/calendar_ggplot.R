@@ -43,12 +43,12 @@ calendar_ggplot <- function(data, fill, wd, ws, draw.arrow = TRUE) {
   
   first_day_of_month_wday <- function(dx) {
     day(dx) <- 1
-    wday(dx, week_start = getOption("lubridate.week.start", 1))
+    wday(dx)
   }
 
   mydata <- data %>%
     ungroup() %>%
-    mutate(dow = wday(date, week_start = getOption("lubridate.week.start", 1)),
+    mutate(dow = wday(date),
            day = day(date),
            month = month(date, label = TRUE),
            year = year(date),

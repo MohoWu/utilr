@@ -20,6 +20,6 @@ Imports:
   bindr,
   glue,
   pkgconfig,
-  lubridate (>= 1.7.0),
+  lubridate (>= 1.6.0),
   forcats
 RoxygenNote: 6.0.1
